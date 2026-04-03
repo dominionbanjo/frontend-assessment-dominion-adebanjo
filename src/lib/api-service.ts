@@ -10,7 +10,7 @@ const API_BASE = "https://api.artic.edu/api/v1";
 export async function fetchArtworksFromAIC(
   page: number = 1,
   limit: number = 20,
-  query: string = ""
+  query: string = "",
 ): Promise<ApiResponse<Artwork[]>> {
   let url = `${API_BASE}/artworks`;
 
@@ -22,7 +22,6 @@ export async function fetchArtworksFromAIC(
 
   const res = await fetch(url, {
     next: { revalidate: 3600 },
-    // @ts-ignore - Cloudflare Workers bonus: explicitly instruct edge cache
     cf: {
       cacheEverything: true,
       cacheTtl: 3600,
@@ -44,7 +43,7 @@ export async function fetchArtworksFromAIC(
 }
 
 export async function fetchArtworkByIdFromAIC(
-  id: string
+  id: string,
 ): Promise<ApiResponse<Artwork>> {
   const url = `${API_BASE}/artworks/${id}`;
 
@@ -67,7 +66,7 @@ export async function fetchArtworkByIdFromAIC(
  */
 export function getImageUrl(
   imageId: string | undefined,
-  size: number = 843
+  size: number = 843,
 ): string {
   if (!imageId) return "/placeholder.png";
   return `https://www.artic.edu/iiif/2/${imageId}/full/${size},/0/default.jpg`;

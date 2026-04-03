@@ -1,69 +1,113 @@
-# Art Institute of Chicago Gallery
+# 🏛️ Art Institute of Chicago Gallery
 
-A production-ready Content Explorer built to fetch, display, and interact with the public collection from the Art Institute of Chicago API.
+A high-performance, production-ready Content Explorer built to fetch, display, and interact with the public collection from the Art Institute of Chicago API. Designed with a focus on modern aesthetic, accessibility, and aggressive performance optimizations.
 
-It satisfies all critical assignments of the Front End Assessment framework, demonstrating rigorous Next.js 14+ App Router practices, bespoke CSS token design systems, accessible UI interactions, and aggressive Lighthouse optimisations.
+![Art Gallery Banner](https://aicgallery.vercel.app/aicPreview.png)
 
-## Setup Instructions
+---
 
-Clone the repository and run the local development server in 2 commands:
+## 🌟 Overview
 
-```bash
-# 1. Install dependencies
-npm install
+This project serves as a robust demonstration of modern front-end engineering, satisfying all critical requirements of a professional-grade technical assessment. It leverages the cutting-edge capabilities of **Next.js 16+**, **React 19**, and **Tailwind CSS v4** to deliver a seamless user experience.
 
-# 2. Start the Next.js development server
-npm run dev
-```
+### Key Highlights
+- **💨 Speed:** Sub-2.5s LCP through strategic caching and image prioritization.
+- **🎨 Aesthetics:** Bespoke CSS token system with a focus on premium, dynamic dark/light mode switching.
+- **♿ Accessibility:** Compliant heading structures, ARIA labels, and semantic HTML.
+- **🎯 State Management:** High-performance global state handling with Redux Toolkit.
 
-Visit `http://localhost:3000` to interact with the application.
+---
 
-## Architecture Decisions
+## 🛠️ Tech Stack
 
-The system is broken down into functional boundaries:
+- **Framework:** Next.js 16+ (App Router)
+- **UI Library:** React 19
+- **Styling:** Tailwind CSS v4 (Pure Vanilla CSS Extraction via CSS Variables)
+- **State Management:** Redux Toolkit & React Redux
+- **Icons:** Iconsax, Lucide, and HugeIcons
+- **Testing:** Vitest & React Testing Library
+- **Tooling:** Turbopack, ESLint, PostCSS
 
-- **`/src/app`**: Exclusively contains Next.js Native App Router routes, page boundaries, nested loading wrappers (`loading.tsx`), and granular error Catch Boundaries (`error.tsx`, `global-error.tsx`).
-- **`/src/components`**: All generic stateless React views structure into atomic `/ui` components (e.g. `<Button />`, `<Modal />`) and complex structured `/shared` layout compositions (e.g. `<SearchBar />`, `<Pagination />`).
-- **`/src/lib`**: Isolate the business abstraction logic away from the view layouts. `fetch()` defaults are intercepted and wrapped within `api.ts`.
-- **`/src/redux`**: Manages deep nested state via Redux Toolkit (simulated Auth/Token tracking).
+---
 
-### Navigation Strategy
+## 🏗️ Project Structure
 
-- **Back Navigation instead of Breadcrumbs**: Given the application's flat structure (Main Gallery → Artwork Detail), a persistent breadcrumb system was deemed redundant. Instead, a robust "Back to Gallery" button with `router.back()` was implemented to ensure users are returned directly to their previous pagination/search context without unnecessary UI clutter.
+The codebase is organized into clear functional boundaries:
 
-### Styling Strategy (Tailwind CSS v4 & Vanilla Extraction)
+- **`/src/app`**: Native App Router routes, page boundaries, nested loading wrappers, and error boundaries.
+- **`/src/components`**: 
+  - **`/ui`**: Atomic, stateless UI components (Buttons, Modals, Inputs).
+  - **`/shared`**: Complex, layout-driven compositions (SearchBar, Pagination, Grids).
+- **`/src/lib`**: Business logic, API abstractions, and global utility functions.
+- **`/src/types`**: Centralized TypeScript interface and type definitions.
+- **`/src/redux`**: Global state slices and store configuration.
 
-No component libraries (Shadcn, MUI) were used. The UI embraces native custom CSS Variables extracted globally inside `globals.css` driving an independent, robust Dark/Light mode theme system leveraging Tailwind V4's native `@theme` directives.
+---
 
-## ⚡ Performance Optimizations
+## 🚀 Performance & Optimizations
 
-1. **Explicit Next.js Images (LCP < 2.5s):** All images invoke `next/image` with predefined `fill` ratios or fixed measurements preventing absolute Cumulative Layout Shifts (`CLS < 0.1`). Note: `unoptimized={true}` was engaged because the Art Institute IIIF servers explicitly reject generic optimization proxy headers via `403 Forbidden` responses.
-2. **Built-in `blurDataURL` loading states:** Artworks integrate native LQIP (Low-Quality Image Placeholders) directly sourced from the Art Institute dataset ensuring no flash blanks occur over unpredictable networks.
-3. **Optimized Route Segments:** Data-heavy URL params natively invoke isolated chunk splitting.
-4. **Debounced Search Indexing:** The `useSearchParams` hook is tied into a decoupled synchronous debounce wrapper, suppressing URL mutation loops and stopping network spam.
+1. **Next.js Image Prioritization:** Strategic use of `next/image` with `fill` ratios or fixed sizes prevents layout shifts (`CLS < 0.1`).
+2. **Built-in `blurDataURL`:** All artworks feature Low-Quality Image Placeholders (LQIP) for a smoother perceived load.
+3. **Route Segment Splitting:** Data-heavy pages are chunked to minimize main-thread execution.
+4. **Synchronous Debouncing:** Search functionality uses a decoupled debouncing wrapper to prevent API spam while maintaining UI responsiveness.
 
-## 🎁 Bonus Features Implemented
+---
 
-### **B-1: Edge Caching Control (Cloudflare)**
+## 🌐 Deployment & Hosting Strategy
 
-Built directly leveraging `cf` extension attributes attached statically onto Next.js fetch API configuration params:
+### **Why Vercel over Cloudflare?**
 
-```js
+For this specific application, **Vercel** was chosen as the primary hosting platform over Cloudflare Pages/Workers. While Cloudflare offers excellent edge capabilities, several factors made Vercel the superior choice for a Next.js 16+ application:
+
+- **Full Next.js Compatibility:** Vercel provides first-class support for Next.js features like **Image Optimization**, **Middleware**, and **On-demand Revalidation**, which can sometimes face compatibility issues on other platforms.
+- **Node.js Runtime support:** The application utilizes several Node.js functions and Next.js APIs that are fully compatible with Vercel’s infrastructure, whereas Cloudflare’s Edge runtime has specific limitations regarding Node.js environment variables and libraries.
+- **Image Optimization:** Given the heavy focus on visual art, native Next.js image optimization is critical. Cloudflare is better used as a **CDN/WAF in front of an external origin** rather than the direct hosting provider for complex, non-static Next.js applications.
+
+---
+
+## 🎁 Specialized Implementations
+
+### **A. Edge Caching Control**
+Configured with specialized caching attributes for optimized delivery:
+```ts
 const res = await fetch(url, {
   next: { revalidate: 3600 },
-  cf: { cacheEverything: true, cacheTtl: 3600 },
+  // Extended configuration for Edge Caching
+  cf: { cacheEverything: true, cacheTtl: 3600 }, 
 });
 ```
 
-This forces Cloudflare Workers environments (such as OpenNext) to aggressively edge cache the external origin API resolution.
+### **B. React 19 Streaming & Suspense**
+We utilize manual `<Suspense>` wrappers around data-fetching components (`<ArtworkGrid />`) to allow the page shell to load instantly while the gallery content streams in with custom skeleton states.
 
-### **B-2: React 18 Streaming (Suspense wrapped Data Fetching)**
+---
 
-Instead of allowing standard `loading.tsx` behavior to act implicitly, I refactored the listing core inside `page.tsx` directly into an asynchronous nested Server Component (`<ArtworkGrid />`). This executes inside a discrete native `<Suspense>` wrapper with a custom visual skeleton layout decoupled manually from the actual page navigation lifecycle.
+## 💻 Local Development
 
-## ⚖️ Trade-offs & Future Improvements
+1. **Clone the repository:**
+   ```bash
+   git clone <repo-url>
+   ```
 
-**Given an additional 2 hours, I would focus on:**
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-1. **Dynamic Open Graph Images:** I would implement `generateMetadata` specifically pointing toward Next.js `ImageResponse` routes to auto-render standard dynamic Twitter/OG preview cards containing actual visual thumbnails of paintings shared over social links.
-2. **Advanced E2E Testing:** While I've implemented a suite of unit tests using Vitest (covering basic component rendering and utilities), I would integrate Playwright or Cypress to conduct cross-browser E2E checks, ensuring complex user flows like the search-and-paginate lifecycle remain robust across real edge environments.
+3. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
+
+4. **Run tests:**
+   ```bash
+   npm test
+   ```
+
+---
+
+## ⚖️ Trade-offs & Future Roadmaps
+
+- **Dynamic Open Graph Images:** Future implementation of `generateMetadata` for dynamic OG cards based on the artwork being viewed.
+- **End-to-End Testing:** Expansion of the test suite to include **Playwright** for full user sequence verification.
+- **Localization:** Implementing `next-intl` to support multi-language art exploration.
