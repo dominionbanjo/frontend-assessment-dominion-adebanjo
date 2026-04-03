@@ -16,6 +16,9 @@ export interface Artwork {
   is_public_domain: boolean;
   artwork_type_title: string;
   artist_title?: string;
+  credit_line?: string;
+  dimensions?: string;
+  place_of_origin?: string;
 }
 
 export interface Pagination {

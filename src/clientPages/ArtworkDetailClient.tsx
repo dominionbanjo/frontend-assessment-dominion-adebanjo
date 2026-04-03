@@ -50,23 +50,50 @@ export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProp
             </div>
           </header>
 
-          <div className="grid grid-cols-2 gap-8 py-6 border-y border-border/50">
-            <div>
-              <span className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Date</span>
-              <span className="text-foreground text-lg md:text-xl font-medium">{artwork.date_display || 'Not recorded'}</span>
-            </div>
-            <div>
-              <span className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Medium</span>
-              <span className="text-foreground text-lg md:text-xl font-medium line-clamp-3" title={artwork.medium_display}>{artwork.medium_display || 'Not recorded'}</span>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 py-8 border-y border-border/40">
+            {artwork.date_display && (
+              <div>
+                <span className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Date</span>
+                <span className="text-foreground text-lg md:text-xl font-medium">{artwork.date_display}</span>
+              </div>
+            )}
+            {artwork.place_of_origin && (
+              <div>
+                <span className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Origin</span>
+                <span className="text-foreground text-lg md:text-xl font-medium">{artwork.place_of_origin}</span>
+              </div>
+            )}
+            {artwork.medium_display && (
+              <div className="md:col-span-2">
+                <span className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Medium</span>
+                <span className="text-foreground text-lg md:text-xl font-medium leading-relaxed">{artwork.medium_display}</span>
+              </div>
+            )}
+            {artwork.dimensions && (
+              <div className="md:col-span-2">
+                <span className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Dimensions</span>
+                <span className="text-foreground text-base md:text-lg font-medium">{artwork.dimensions}</span>
+              </div>
+            )}
           </div>
 
-          <div className="py-2">
-            <span className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Status</span>
-            <span className="text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-2 text-base">
-              <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-              {artwork.is_public_domain ? 'Public Domain' : 'Copyright Protected'}
-            </span>
+          <div className="flex flex-col gap-6">
+            <div className="flex items-center justify-between py-1">
+              <div>
+                <span className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Status</span>
+                <span className="text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-2 text-base">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                  {artwork.is_public_domain ? 'Public Domain' : 'Copyright Protected'}
+                </span>
+              </div>
+            </div>
+
+            {artwork.credit_line && (
+              <div className="p-4 bg-muted/30 rounded-sm border-l-4 border-muted">
+                <span className="block text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em] mb-2 opacity-60">Credit Line</span>
+                <p className="text-foreground/80 text-xs italic leading-tight">{artwork.credit_line}</p>
+              </div>
+            )}
           </div>
 
           {artwork.description && (
