@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import Pagination from '../components/shared/Pagination';
+import Pagination from "../../components/shared/Pagination";
 
 const mockPush = vi.fn();
 

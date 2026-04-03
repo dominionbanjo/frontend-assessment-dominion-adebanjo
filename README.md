@@ -27,6 +27,10 @@ The system is broken down into functional boundaries:
 - **`/src/lib`**: Isolate the business abstraction logic away from the view layouts. `fetch()` defaults are intercepted and wrapped within `api.ts`.
 - **`/src/redux`**: Manages deep nested state via Redux Toolkit (simulated Auth/Token tracking).
 
+### Navigation Strategy
+
+- **Back Navigation instead of Breadcrumbs**: Given the application's flat structure (Main Gallery → Artwork Detail), a persistent breadcrumb system was deemed redundant. Instead, a robust "Back to Gallery" button with `router.back()` was implemented to ensure users are returned directly to their previous pagination/search context without unnecessary UI clutter.
+
 ### Styling Strategy (Tailwind CSS v4 & Vanilla Extraction)
 
 No component libraries (Shadcn, MUI) were used. The UI embraces native custom CSS Variables extracted globally inside `globals.css` driving an independent, robust Dark/Light mode theme system leveraging Tailwind V4's native `@theme` directives.

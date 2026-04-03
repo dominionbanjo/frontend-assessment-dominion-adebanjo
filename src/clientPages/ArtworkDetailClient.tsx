@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { ArrowLeft2 } from 'iconsax-react';
 import { getImageUrl } from '@/lib/api';
 import { Artwork } from '@/types';
@@ -11,16 +11,18 @@ interface ArtworkDetailClientProps {
 }
 
 export default function ArtworkDetailClient({ artwork }: ArtworkDetailClientProps) {
+  const router = useRouter();
+
   return (
     <main className="page-container">
       <nav className="mb-8">
-        <Link 
-          href="/" 
+        <button 
+          onClick={() => router.back()}
           className="btn btn-secondary h-10 px-4"
         >
           <ArrowLeft2 size="16" color="currentColor" variant="Outline" className="mr-2" />
           Back to Gallery
-        </Link>
+        </button>
       </nav>
 
       <div className="flex flex-col lg:flex-row gap-12 items-start">
