@@ -55,30 +55,37 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md">
-      <div className="page-container flex h-16 items-center justify-between py-0 md:py-0">
-        <Link href="/" className="font-bold text-lg tracking-tighter text-foreground flex items-center gap-2">
-          <span className="w-8 h-8 rounded-sm bg-primary flex items-center justify-center text-primary-foreground text-xs italic font-serif">
+      <div className="page-container flex h-16 items-center justify-between gap-4">
+        <Link href="/" className="flex items-center gap-2 sm:gap-3 shrink-0 group">
+          <span className="w-9 h-9 rounded-sm bg-primary flex items-center justify-center text-primary-foreground text-xs italic font-serif shrink-0 shadow-sm group-hover:scale-105 transition-transform">
             AIC
           </span>
-          Art Institute of Chicago Gallery
+          <div className="flex flex-col -space-y-0.5 shrink-0">
+            <span className="text-sm sm:text-base md:text-xl font-serif italic tracking-tight text-foreground leading-tight whitespace-nowrap">
+              Art Institute
+            </span>
+            <span className="text-[9px] md:text-[11px] font-medium text-muted-foreground uppercase tracking-[0.2em] leading-tight hidden min-[400px]:block whitespace-nowrap">
+              of Chicago Gallery
+            </span>
+          </div>
         </Link>
         
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           <ThemeToggle />
           
-          <div className="h-6 w-px bg-border mx-2"></div>
+          <div className="h-6 w-px bg-border/60 mx-1 sm:mx-2"></div>
           
           {isAuthenticated && user ? (
             <div className="relative" ref={profileRef}>
               <button 
                 onClick={() => setIsProfileOpen(!isProfileOpen)}
-                className="flex items-center gap-2 px-2 py-1.5 rounded-sm hover:bg-surface transition-colors border border-transparent hover:border-border"
+                className="flex items-center gap-2 p-1 sm:px-2 sm:py-1.5 rounded-sm hover:bg-surface transition-colors border border-transparent hover:border-border"
               >
                 <Avatar firstName={user.firstName} lastName={user.lastName} size="sm" className="rounded-sm" />
                 <span className="text-sm font-semibold text-foreground hidden sm:inline-block">
                   {user.firstName}
                 </span>
-                <ArrowDown2 size="14" className={isProfileOpen ? 'rotate-180 transition-transform' : 'transition-transform'} />
+                <ArrowDown2 size="14" color="currentColor" variant="Outline" className={isProfileOpen ? 'rotate-180 transition-transform' : 'transition-transform'} />
               </button>
 
               {isProfileOpen && (
@@ -92,7 +99,7 @@ export default function Header() {
                     onClick={handleLogout}
                     className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-danger hover:bg-danger/5 rounded-sm transition-colors"
                   >
-                    <Logout size="18" variant="Outline" />
+                    <Logout size="18" color="currentColor" variant="Outline" />
                     Sign out
                   </button>
                 </div>
@@ -101,10 +108,11 @@ export default function Header() {
           ) : (
             <button
               onClick={() => setIsLoginModalOpen(true)}
-              className="btn btn-primary h-10 px-5 rounded-sm text-sm font-medium transition-all flex items-center gap-2"
+              className="btn btn-primary h-10 w-10 sm:w-auto sm:px-5 p-0 rounded-sm text-sm font-medium transition-all flex items-center justify-center sm:gap-2 shadow-sm"
+              aria-label="Sign in"
             >
-              <Profile size="18" color="currentColor" variant="Bold" />
-              Sign in
+              <Profile size="20" color="currentColor" variant="Bold" />
+              <span className="hidden sm:inline">Sign in</span>
             </button>
           )}
         </div>
