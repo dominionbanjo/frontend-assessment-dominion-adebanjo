@@ -60,11 +60,11 @@ export default function Header() {
           <span className="w-9 h-9 rounded-sm bg-primary flex items-center justify-center text-primary-foreground text-xs italic font-serif shrink-0 shadow-sm group-hover:scale-105 transition-transform">
             AIC
           </span>
-          <div className="flex flex-col -space-y-0.5 shrink-0">
+          <div className="flex flex-col gap-0.5 shrink-0">
             <span className="text-sm sm:text-base md:text-xl font-serif italic tracking-tight text-foreground leading-tight whitespace-nowrap">
               Art Institute
             </span>
-            <span className="text-[9px] md:text-[11px] font-medium text-muted-foreground uppercase tracking-[0.2em] leading-tight hidden min-[400px]:block whitespace-nowrap">
+            <span className="text-[9px] md:text-[11px] font-medium text-muted-foreground uppercase tracking-[0.2em] leading-tight block whitespace-nowrap">
               of Chicago Gallery
             </span>
           </div>
