@@ -22,16 +22,18 @@ export async function generateMetadata({
   try {
     const data = await getArtworkById(p.id);
     const artwork = data.data;
-    console.log(data);
-
     return {
       title: `${artwork.title} | Art Institute of Chicago Gallery`,
-      description: [
-        artwork.artist_title || artwork.artist_display,
-        artwork.artwork_type_title,
-        artwork.place_of_origin ? `Origin: ${artwork.place_of_origin}` : null,
-        artwork.date_display,
-      ].filter(Boolean).join(" - ") || "Explore this artwork at the Art Institute of Chicago.",
+      description:
+        [
+          artwork.artist_title || artwork.artist_display,
+          artwork.artwork_type_title,
+          artwork.place_of_origin ? `Origin: ${artwork.place_of_origin}` : null,
+          artwork.date_display,
+        ]
+          .filter(Boolean)
+          .join(" - ") ||
+        "Explore this artwork at the Art Institute of Chicago.",
       openGraph: {
         images: [getImageUrl(artwork.image_id, 800)],
       },
